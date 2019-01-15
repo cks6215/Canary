@@ -1,0 +1,33 @@
+.reservation_page_title{
+    text-align: center;
+}
+
+.reservation_page_title>p{
+    font-size: 2rem;
+}
+
+.img_container{
+    border: 1px silver solid;
+    margin-bottom: 1rem;
+}
+
+.img_container>img {
+    width: 15rem;
+    height: 15.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.items {
+    padding: 0;
+    margin-top: 3rem;
+    border-bottom: 1px silver solid;
+}
+
+.reservation_info_container>a{
+    width: 50%;
+}
+
+.btn-group>.btn {
+    float: inherit;
+}

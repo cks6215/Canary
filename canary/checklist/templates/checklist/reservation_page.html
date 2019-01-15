@@ -1,0 +1,443 @@
+{% extends 'checklist/base.html' %}
+{% load staticfiles %}
+
+{% block title %}Carnary:reservation{% endblock %}
+
+
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<link rel="stylesheet" href="{% static 'css/reservation_page.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="header container-fluid">
+    <div class="item_container container-fluid">
+        <div class="items col-md-offset-2 col-md-8">
+            <div class="img_container col-md-3">
+                <img src="{{ equipment.item_img.url }}" alt="">
+            </div>
+            <div class="item_name_container col-md-2">
+                <p class="item_name">{{ equipment.item_name }}</p>
+            </div>
+            <div class="item_detail col-md-offset-1 col-md-6">
+                item detail description
+            </div>
+        </div>
+    </div>
+
+    <div class="reservation_info_container container-fluid">
+        <div class="item_date col-md-offset-2 col-md-8">
+            <label for=""><span class="badge">1</span> Choose date and hours of use</label>
+            <ul class="nav nav-pills">
+                <!--예약 가능 시간 판별기로 링크-->
+                <li><a href="#" class="single_select_date selected" url=""></a></li>
+                <li><a href="#" class="single_select_date" url=""></a></li>
+                <li><a href="#" class="single_select_date" url=""></a></li>
+            </ul>
+        </div>
+        <div class="item_time col-md-offset-2 col-md-8">
+            <table>
+                <thead>
+                <tr>
+                    <td class="time_title">00</td>
+                    <td class="time_title">01</td>
+                    <td class="time_title">02</td>
+                    <td class="time_title">03</td>
+                    <td class="time_title">04</td>
+                    <td class="time_title">05</td>
+                    <td class="time_title">06</td>
+                    <td class="time_title">07</td>
+                    <td class="time_title">08</td>
+                    <td class="time_title">09</td>
+                    <td class="time_title">10</td>
+                    <td class="time_title">11</td>
+                    <td class="time_title">12</td>
+                    <td class="time_title">13</td>
+                    <td class="time_title">14</td>
+                    <td class="time_title">15</td>
+                    <td class="time_title">16</td>
+                    <td class="time_title">17</td>
+                    <td class="time_title">18</td>
+                    <td class="time_title">19</td>
+                    <td class="time_title">20</td>
+                    <td class="time_title">21</td>
+                    <td class="time_title">22</td>
+                    <td class="time_title">23</td>
+                </tr>
+
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                    <td class="time_cell" start_time="" end_time="">&nbsp</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="reservation_info time_container col-md-offset-2 col-md-8">
+            <div class="time_container_title col-md-2">
+                <label for=""><span class="badge">2</span> hours of use</label>
+            </div>
+            <div class="time_container_time col-md-10">
+                <p>00:00 ~ 00:00</p>
+            </div>
+        </div>
+    </div>
+
+    <form id="reservation_form" action="{% url 'checklist:makereservation' %}" method="post">
+        {% csrf_token %}
+
+        <input id="item_id_info" type="hidden" name="item_id" value="{{ equipment.id }}"> <!--value에 {{ item }} 넣기-->
+        <input id="item_name_info" type="hidden" name="item_name" value="{{ equipment.item_name }}">
+        <input id="item_category_info" type="hidden" name="item_category" value="{{ equipment.item_category }}">
+        <input id="item_date_info" type="hidden" name="item_date" value=""> <!--value에 {{ item }} 넣기-->
+        <input id="start_time_info" type="hidden" name="start_time" value=""> <!--value에 {{ item }} 넣기-->
+        <input id="end_time_info" type="hidden" name="end_time" value=""> <!--value에 {{ item }} 넣기-->
+
+        <input class="btn btn-default" type="submit" value="예약하기">
+    </form>
+
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/3.0.1/jquery-migrate.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+
+<script>
+    $( document ).ready(function() {
+        //날짜 카테고리에 url 부여해주기
+        var now = new Date();
+        var year = now.getFullYear();
+        if(now.getMonth()+1>9) {month = now.getMonth()+1;}
+        else {month = '0'+(now.getMonth()+1);}
+
+        for(i=0; i<3; i++){
+            if(now.getDate()+i>9) {date = now.getDate()+i}
+            else {date = '0'+(now.getDate()+i)}
+
+            datetime = year+'-'+month+'-'+date;
+            $(".single_select_date").eq(i).html(datetime);
+
+            var url = "/checklist/reservation_page/"+"{{equipment.id}}/"+datetime;
+            $(".single_select_date").eq(i).attr("url", url);
+        }
+
+        //time html 체우기 --> 더 간단하게 수정해도 됨
+        for(i=0; i<24; i++)
+        {
+            if(i<10){
+                var start_time = '0'+i+':00';
+                var end_time = '0'+i+':59';
+            }
+            else{
+                var start_time = i+':00';
+                var end_time = i+':59';
+            }
+            $("tbody>tr>td").eq(i).attr("start_time", start_time);
+            $("tbody>tr>td").eq(i).attr("end_time", end_time);
+        }
+
+        // hidden input date 값 넣어주기
+        var date = $(".single_select_date").eq(0).html();
+        $("#item_date_info").attr("value", date);
+
+        //페이지 로딩시 자동으로 오늘 예약일정 데이터 통신
+        var url = $(".single_select_date").eq(0).attr("url");
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            success: function(response) {
+                if(response.status == "success"){
+                    for(i=0; i<24; i++)
+                    {
+                        $('tbody>tr>td').eq(i).addClass(response.time[i]);
+                    }
+                }
+                else{
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    //날짜 클릭시 해당날짜 예약일정 데이터 통신
+    $("a.single_select_date").click(function() {
+        var url = $(this).attr("url");
+        var date = $(this).html();
+        $(".time_container_time>p").html("00:00 ~ 00:00");
+
+        $(".single_select_date.selected").removeClass("selected");
+
+        $(this).addClass("selected");
+        $("#item_date_info").attr("value", date);
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            success: function(response) {
+                if(response.status == "success"){
+                    for(i=0; i<24; i++)
+                    {
+                        $('tbody>tr>td').eq(i).removeClass("selected");
+                        $('tbody>tr>td').eq(i).removeClass("available");
+                        $('tbody>tr>td').eq(i).removeClass("unavailable");
+                        $('tbody>tr>td').eq(i).addClass(response.time[i]);
+                    }
+                }
+                else{
+                    alert(response.message);
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    // 테이블식 시간 예약
+    $(".time_cell").click(function () {
+        if($(this).hasClass("available"))
+        {
+            var num=0;
+            var start_time;
+            var end_time;
+
+            for(i=0; i<24; i++)
+            {
+                if ($(".time_cell").eq(i).hasClass("selected"))
+                    num++;
+            }
+
+            if(num==0)
+            {
+                $(this).addClass("selected");
+                num++;
+
+                start_time = $(this).attr("start_time");
+                end_time = $(this).attr("end_time");
+                var text = start_time+' ~ '+end_time;
+                $(".time_container_time>p").html(text);
+            }
+
+            else if(num==1)
+            {
+                var index_from;
+                var index_new = $(".time_cell").index(this);
+
+                for(i=0; i<24; i++)
+                {
+                    if ($(".time_cell").eq(i).hasClass("selected"))
+                        index_from = i;
+                }
+
+                if (Math.abs(index_from-index_new)<3)
+                {
+                    if (index_from>index_new)
+                    {
+                        for(i=index_new; i<=index_from; i++)
+                        {
+                            if($(".time_cell").eq(i).hasClass("selected") == false)
+                            {
+                                $(".time_cell").eq(i).addClass("selected");
+                                num++
+                            }
+                        }
+
+
+                        start_time = $(".time_cell").eq(index_new).attr("start_time");
+                        end_time = $(".time_cell").eq(index_from).attr("end_time");
+                        var text = start_time+' ~ '+end_time;
+                        $(".time_container_time>p").html(text);
+                    }
+
+                    else
+                    {
+                        for(i=index_from; i<=index_new; i++)
+                            if($(".time_cell").eq(i).hasClass("selected") == false)
+                            {
+                                $(".time_cell").eq(i).addClass("selected");
+                                num++
+                            }
+
+                        start_time = $(".time_cell").eq(index_from).attr("start_time");
+                        end_time = $(".time_cell").eq(index_new).attr("end_time");
+                        var text = start_time+' ~ '+end_time;
+                        $(".time_container_time>p").html(text);
+                    }
+                }
+
+                else
+                {
+                    $(".time_cell").eq(index_from).removeClass("selected");
+                    $(this).addClass("selected");
+                    num=1;
+
+                    start_time = $(this).attr("start_time");
+                    end_time = $(this).attr("end_time");
+                    var text = start_time+' ~ '+end_time;
+                    $(".time_container_time>p").html(text);
+                }
+            }
+
+            else if(num>1 && num<3)
+            {
+                var index_from;
+                var index_to;
+                var index_new = $(".time_cell").index(this);
+
+                for(i=0; i<24; i++)
+                {
+                    if ($(".time_cell").eq(i).hasClass("selected") && $(".time_cell").eq(i-1).hasClass("selected") == false)
+                        index_from = i;
+
+                    if ($(".time_cell").eq(i).hasClass("selected") && $(".time_cell").eq(i+1).hasClass("selected") == false)
+                    {
+                        index_to = i;
+                        break;
+                    }
+                }
+
+                if(Math.abs(index_from-index_new)<3 && Math.abs(index_to-index_new)<3)
+                {
+                    if(index_new<index_from)
+                    {
+                        for(i=index_new; i<=index_to; i++)
+                        {
+                            if($(".time_cell").eq(i).hasClass("selected") == false)
+                            {
+                                $(".time_cell").eq(i).addClass("selected");
+                                num++;
+                            }
+
+                        }
+
+                        start_time = $(".time_cell").eq(index_new).attr("start_time");
+                        end_time = $(".time_cell").eq(index_to).attr("end_time");
+                        var text = start_time+' ~ '+end_time;
+                        $(".time_container_time>p").html(text);
+                    }
+
+                    else if(index_to<index_new)
+                    {
+                        for(i=index_from; i<=index_new; i++)
+                        {
+                            if($(".time_cell").eq(i).hasClass("selected") == false)
+                            {
+                                $(".time_cell").eq(i).addClass("selected");
+                                num++;
+                            }
+                        }
+
+                        start_time = $(".time_cell").eq(index_from).attr("start_time");
+                        end_time = $(".time_cell").eq(index_new).attr("end_time");
+                        var text = start_time+' ~ '+end_time;
+                        $(".time_container_time>p").html(text);
+                    }
+                }
+
+                else
+                {
+                    for(i=index_from; i<=index_to; i++)
+                        $(".time_cell").eq(i).removeClass("selected");
+
+                    $(this).addClass("selected");
+                    num=1;
+
+                    start_time = $(this).attr("start_time");
+                    end_time = $(this).attr("end_time");
+                    var text = start_time+' ~ '+end_time;
+                    $(".time_container_time>p").html(text);
+                }
+            }
+
+            else
+            {
+                var index_from;
+                var index_to;
+
+                for(i=0; i<24; i++)
+                {
+                    if ($(".time_cell").eq(i).hasClass("selected") && $(".time_cell").eq(i-1).hasClass("selected") == false)
+                        index_from = i;
+
+                    if ($(".time_cell").eq(i).hasClass("selected") && $(".time_cell").eq(i+1).hasClass("selected") == false)
+                    {
+                        index_to = i;
+                        break;
+                    }
+                }
+
+                for(i=index_from; i<=index_to; i++)
+                    $(".time_cell").eq(i).removeClass("selected");
+
+                $(this).addClass("selected");
+                num=1;
+
+                start_time = $(this).attr("start_time");
+                end_time = $(this).attr("end_time");
+                var text = start_time+' ~ '+end_time;
+                $(".time_container_time>p").html(text);
+            }
+
+            $("#start_time_info").attr("value", start_time);
+            $("#end_time_info").attr("value", end_time);
+        }
+
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#reservation_form").submit(function(e){
+            e.preventDefault();
+            serializedData = $("#reservation_form").serialize();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'checklist:makereservation' %}",
+                data: serializedData,
+                dataType: 'json',
+                success: function(response) {
+                    if(response.status == "success"){
+                        alert(response.message);
+                        window.location="{% url 'checklist:main' 'All' %}";
+                    }
+                    else{
+                        alert(response.message);
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+.header {
+    text-align: center;
+    margin-top: 5rem;
+}
+
+.dropdown-toggle{
+    min-width: 16rem;
+}
+
+.img_container{
+    border: 1px silver solid;
+    margin-bottom: 1rem;
+}
+
+.img_container>img {
+    width: 15rem;
+    height: 15.5rem;
+    margin: 1rem;
+}
+
+.items {
+    padding: 0;
+    margin-top: 3rem;
+    border-bottom: 1px silver solid;
+}
+
+.btn-group>.btn {
+    float: inherit;
+}

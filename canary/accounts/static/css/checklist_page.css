@@ -1,0 +1,103 @@
+.checklist_container{
+    text-align: center;
+    padding-bottom: 3rem;
+    border: 1px silver solid;
+}
+
+.checklist_head{
+    margin-top: 2rem;
+}
+
+.checklist_num{
+    text-align: left;
+}
+
+.checklist_head_title{
+    font-size: 3rem;
+    position: relative;
+    top: 3rem
+}
+
+.checklist_item_category{
+    position: relative;
+    top: 1.5rem;
+
+}
+
+.checklist_item_name{
+    position: relative;
+    top: 3rem;
+    text-align: right;
+}
+
+.checklist_auth{
+    position: relative;
+    top: 2rem;
+    text-align: right;
+}
+
+.checklist_body{
+    margin-top: 6rem;
+}
+
+.title{
+    position: absolute;
+    right: 10rem;
+}
+
+.checklist_body_title{
+    text-align: left;
+    border: 1px black dashed;
+    background-color: #b9d8e1;
+}
+
+.question_title, .question{
+    text-align: center;
+    width: 80%;
+    display: inline-block;
+}
+
+.answer_title, .answer{
+    text-align: center;
+    width: 19.3%;
+    display: inline-block;
+}
+
+.answer_title_yes,
+.answer_title_no,
+.answer_yes,
+.answer_no{
+    display: inline-block;
+    width: 48%;
+
+}
+
+.question_title,
+.answer_title_yes
+{
+    border-right: 1px black dashed;
+}
+
+.question>p {
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.checklist_row {
+    border-left: 1px silver solid;
+    border-right: 1px silver solid;
+    border-bottom: 1px silver solid;
+}
+
+.question,
+.answer_yes{
+    border-right: 1px silver solid;
+}
+
+.submit_button_container{
+    margin-top: 3rem;
+}
+
+.submit_button_container>.btn{
+    border-radius: 0;
+}

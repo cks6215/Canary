@@ -1,0 +1,35 @@
+.header {
+    text-align: center;
+}
+
+.logo_container{
+    margin-top: 10%;
+    margin-bottom: 2rem;
+}
+
+.logo_container>img {
+    border-radius: 50%;
+    width: 20rem;
+    height: 20rem;
+}
+
+.form_container{
+
+}
+
+#login_form>p{
+    padding-right: 7.4rem;
+}
+
+
+#login_form>p:nth-child(2){
+    margin-right: 1.8rem;
+}
+
+#login_button{
+    width: 7rem;
+}
+
+.btn{
+    border-radius: 0;
+}

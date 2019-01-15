@@ -1,0 +1,112 @@
+.header {
+    text-align: center;
+    margin-top: 5rem;
+}
+
+.img_container{
+    border: 1px silver solid;
+    margin-bottom: 1rem;
+}
+
+.img_container>img {
+    width: 15rem;
+    height: 15.5rem;
+    margin: 1rem;
+}
+
+.items {
+    padding: 0;
+    margin-top: 3rem;
+    border-bottom: 1px silver solid;
+}
+
+.reservation_info_container{
+    position: relative;
+    top: 2rem;
+}
+
+.nav-pills>li>a{
+    border-radius: 0;
+}
+
+.nav>li>a:focus, .nav>li>a:hover{
+    text-decoration: white;
+    background-color: #1C93BB;
+}
+
+.single_select_date{
+    background-color: #EEF1F9;
+    color: white;
+}
+
+.single_select_date.selected{
+    background-color: #1C93BB;
+    color: white;
+}
+
+.item_date, .item_time {
+    padding: 0;
+}
+
+.item_date{
+    text-align: left;
+}
+
+td {
+    padding: 1rem;
+    width: 5rem;
+
+}
+
+td.time_title {
+    height: 5rem;
+    border-left: 0.1rem #6c7482 solid;
+    background-color: rgb(72, 80, 95);
+    color: white;
+    font-size: 1.2rem;
+}
+
+td.time_cell {
+    cursor: pointer;
+    height: 7rem;
+    border: white solid;
+    border-width: 0.4rem 0.4rem 0.4rem 0.2rem;
+}
+
+td.time_cell.available {
+    background-color: #b9d8e1;
+}
+
+td.time_cell.available:hover {
+    background-color: orange;
+}
+
+td.time_cell.unavailable {
+    cursor: default;
+    background-color: lightgray;
+}
+
+td.time_cell.selected {
+    background-color: orange;
+}
+
+.time_container_time{
+    text-align: left;
+}
+
+#reservation_form{
+    position: relative;
+    top: 4rem;
+}
+
+.reservation_info{
+    text-align: left;
+    padding: 0;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+    border-top: 1px #d4d5d6 dashed;
+}
+
+.reservation_info>div{
+    padding: 0;
+}

@@ -1,0 +1,85 @@
+{% extends 'checklist/base.html' %}
+{% load staticfiles %}
+
+{% block title %} Canary:checklist {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/checklist_page.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="header container-fluid">
+    <div class="checklist_container col-md-offset-3 col-md-6">
+        <div class="checklist_head">
+            <p class="checklist_num">No. {{reservation.id}}</p>
+            <p class="checklist_head_title">Checklist</p>
+            <p class="checklist_item_category">( {{ reservation.item_category }} )</p>
+            <p class="checklist_item_name"><span class="title">Model:</span> <span>{{ reservation.item_name }}</span> </p>
+            <p class="checklist_auth"><span class="title">User:</span> <span>{{ username }}</span></p>
+        </div>
+
+        <div class=  "checklist_body">
+            <div class ="checklist_body_title">
+                <div class="question_title">
+                    Questions
+                </div>
+                <div class="answer_title">
+                    <div class="answer_title_yes">Yes</div>
+                    <div class="answer_title_no">No</div>
+                </div>
+            </div>
+            <form id="checklist_form" action="{% url 'accounts:makechecklist' reservation.id %}" method="post">
+                {% csrf_token %}
+
+                {% for q in question_li %}
+                <div class="checklist_row">
+                    <div class="question">
+                        <p>{{ q.text }}</p>
+                    </div>
+                    <div class="answer">
+                        <div class="answer_yes">
+                            <input type="radio" name="response{{ q.id }}" value="yes">
+                        </div>
+                        <div class="answer_no">
+                            <input type="radio" name="response{{ q.id }}" value="no">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="submit_button_container">
+                    <input class="btn btn-default" type="submit" value="제출">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+    $(document).ready(function() {
+        $("#checklist_form").submit(function(e){
+            e.preventDefault();
+            serializedData = $("#checklist_form").serialize();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'accounts:makechecklist' reservation.id %}",
+                data: serializedData,
+                dataType: 'json',
+                success: function(response) {
+                    if(response.status == "success"){
+                        alert(response.message);
+                        window.location="{% url 'accounts:mypage' %}";
+                    }
+                    else{
+                        alert(response.message)
+                    }
+                }
+            });
+        });
+        /* end of script */
+    });
+</script>
+{% endblock %}
