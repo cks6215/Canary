@@ -102,3 +102,16 @@ def makereservation(request):
 
     else:
         return redirect('checklist:main')
+
+
+# def checklist_complete(request, item_id):
+#     reservation_li = Reservation.objects.filter(item_id=item_id)
+#     tmp_reservation = Reservation()
+#
+#     for re in reservation_li:
+#         if re.start_datetime < datetime.datetime.now() and datetime.datetime.now() < re.end_datetime:
+#             tmp_reservation = re
+#             break
+#
+#     if tmp_reservation.checklist_complete == True:
+#         return HttpResponse

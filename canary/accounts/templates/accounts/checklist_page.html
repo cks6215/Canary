@@ -71,7 +71,7 @@
                 success: function(response) {
                     if(response.status == "success"){
                         alert(response.message);
-                        window.location="{% url 'accounts:mypage' %}";
+                        window.location="{% url 'accounts:control_page' reservation.id 'off' %}";
                     }
                     else{
                         alert(response.message)

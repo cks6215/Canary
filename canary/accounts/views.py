@@ -110,9 +110,13 @@ def mypage(request):
 
 
 def checklist_page(request, reservation_id):
+
     reservation = get_object_or_404(Reservation, pk=reservation_id)
     equipment = get_object_or_404(Equipment, pk=reservation.item_id)
     question_li = Question.objects.filter(item_category = equipment.item_category)
+
+    if reservation.checklist_complete == True:
+        return redirect('accounts:control_page', reservation.id, 'off')
 
     if reservation.email.find('@') != -1:
 
@@ -157,9 +161,42 @@ def makechecklist(request, reservation_id):
 
         # 에약 객체에 체크리스트 제출 여부 속성 추가.
 
+        reservation.checklist_complete = True
+        reservation.save()
+
         response = {'status':'success', 'message':'제출되었습니다.'}
         return HttpResponse(json.dumps(response), content_type='application/json')
 
     else: #체크리스트 점검하는 알고리즘 추가
         response = {'status': 'fail', 'message': '다시 작성하세요'}
         return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def control_page(request, reservation_id, power):
+    reservation = Reservation.objects.get(pk=reservation_id)
+    reservation.power = power
+
+    reservation.save()
+
+    context = {
+        'reservation':reservation
+    }
+
+    return render(request, 'accounts/control_page.html', context)
+
+
+
+# def control_power(request, item_id):
+#     reservation_li = Reservation.objects.filter(item_id=item_id)
+#     reservation = Reservation()
+#
+#     for re in reservation_li:
+#         if re.start_datetime < datetime.datetime.now() and datetime.datetime.now() < re.end_datetime:
+#             reservation = re
+#         break
+#
+#     if reservation.checklist_complete == True:
+#         return HttpResponse()
+#
+#     else:
+#         return HttpResponse()
