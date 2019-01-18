@@ -186,17 +186,19 @@ def control_page(request, reservation_id, power):
 
 
 
-# def control_power(request, item_id):
-#     reservation_li = Reservation.objects.filter(item_id=item_id)
-#     reservation = Reservation()
-#
-#     for re in reservation_li:
-#         if re.start_datetime < datetime.datetime.now() and datetime.datetime.now() < re.end_datetime:
-#             reservation = re
-#         break
-#
-#     if reservation.checklist_complete == True:
-#         return HttpResponse()
-#
-#     else:
-#         return HttpResponse()
+def control_power(request, item_id):
+    reservation_li = Reservation.objects.filter(item_id=item_id)
+    reservation = Reservation()
+
+    for re in reservation_li:
+        if re.start_datetime < datetime.datetime.now() and datetime.datetime.now() < re.end_datetime:
+            reservation = re
+        break
+
+    if reservation.checklist_complete == True:
+        response = 'on'
+        return HttpResponse(response, content_type='application/text')
+
+    else:
+        response = 'off'
+        return HttpResponse(response, content_type='application/text')

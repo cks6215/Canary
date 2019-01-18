@@ -28,5 +28,5 @@ urlpatterns = [
     path('checklist_page/<reservation_id>/', views.checklist_page, name='checklist_page'),
     path('makechecklist/<reservation_id>/', views.makechecklist, name='makechecklist'),
     path('control_page/<reservation_id>/<power>/', views.control_page, name='control_page'),
-    # path('control/<item_id>/', views.control, name='control'),
+    path('control_power/<item_id>/', views.control_power, name='control_power'),
 ]
