@@ -25,7 +25,7 @@ SECRET_KEY = '#k=idm_#_sz51n0!5m6k!alb(hs=u4@=9i23+fs*840rk@30fl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cks6215.pythonanywhere.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -125,7 +125,7 @@ LOGOUT_URL = '/accounts/logout/' # 기본값
 LOGIN_REDIRECT_URL = '/' # 반드시 정의할 것!
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, '/static')
 
 MEDIA_URL = '/static/img/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
+MEDIA_ROOT = os.path.join(BASE_DIR, '/static/img')

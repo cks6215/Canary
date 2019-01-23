@@ -27,5 +27,4 @@ urlpatterns = [
 
     path('makereservation/', views.makereservation, name='makereservation'),
 
-    # path('checklist_complete', views.checklist_complete, name='checklist_complete'),
 ]

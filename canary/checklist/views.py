@@ -10,18 +10,27 @@ from .models import Reservation, Equipment, EquipmentCategory
 # Create your views here.
 
 def main(request, category):
-    if category == 'All':
-        equipments_li = Equipment.objects.all()
+    try:
+        if category == 'All':
+            equipments_li = Equipment.objects.all()
 
-    else:
-        tmp_category = EquipmentCategory.objects.get(category=category)
-        equipments_li = Equipment.objects.filter(item_category=tmp_category)
+        else:
+            tmp_category = EquipmentCategory.objects.get(category=category)
+            equipments_li = Equipment.objects.filter(item_category=tmp_category)
 
-    context = {
-        'category':category,
-        'equipments':equipments_li
-    }
-    return render(request, 'checklist/main.html', context)
+        context = {
+            'category':category,
+            'equipments':equipments_li
+        }
+
+        return render(request, 'checklist/main.html', context)
+
+    except:
+        context = {
+            'category': category,
+        }
+        return render(request, 'checklist/main.html', context)
+
 
 
 def reservation_page(request, item_id):
@@ -102,16 +111,3 @@ def makereservation(request):
 
     else:
         return redirect('checklist:main')
-
-
-# def checklist_complete(request, item_id):
-#     reservation_li = Reservation.objects.filter(item_id=item_id)
-#     tmp_reservation = Reservation()
-#
-#     for re in reservation_li:
-#         if re.start_datetime < datetime.datetime.now() and datetime.datetime.now() < re.end_datetime:
-#             tmp_reservation = re
-#             break
-#
-#     if tmp_reservation.checklist_complete == True:
-#         return HttpResponse

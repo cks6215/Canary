@@ -195,7 +195,7 @@ def control_power(request, item_id):
             reservation = re
         break
 
-    if reservation.checklist_complete == True:
+    if reservation.power == 'on':
         response = 'on'
         return HttpResponse(response, content_type='application/text')
 
