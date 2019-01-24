@@ -98,12 +98,17 @@ def mypage(request):
     reservations = Reservation.objects.filter(email=request.user.username, end_datetime__gte=timezone.now())
     reservation_li = []
 
-    for r in reservations:
-        item = Equipment.objects.get(pk=r.item_id)
-        start_datetime = datetime.datetime.strftime(r.start_datetime, '%Y-%m-%d %H:%M')
-        end_datetime = datetime.datetime.strftime(r.end_datetime, '%Y-%m-%d %H:%M')
 
-        reservation_li.append((r, item, start_datetime, end_datetime))
+
+    for re in reservations:
+        tmp_start_datetime = re.start_datetime.replace(tzinfo=None) + datetime.timedelta(hours=9)
+        tmp_end_datetime = re.end_datetime.replace(tzinfo=None) + datetime.timedelta(hours=9)
+
+        item = Equipment.objects.get(pk=re.item_id)
+        start_datetime = datetime.datetime.strftime(tmp_start_datetime, '%Y-%m-%d %H:%M')
+        end_datetime = datetime.datetime.strftime(tmp_end_datetime, '%Y-%m-%d %H:%M')
+
+        reservation_li.append((re, item, start_datetime, end_datetime))
 
     context = {'reservation_li': reservation_li}
     return render(request, 'accounts/mypage.html', context)
@@ -185,20 +190,22 @@ def control_page(request, reservation_id, power):
     return render(request, 'accounts/control_page.html', context)
 
 
-
 def control_power(request, item_id):
     reservation_li = Reservation.objects.filter(item_id=item_id)
     reservation = Reservation()
 
     for re in reservation_li:
-        if re.start_datetime < datetime.datetime.now() and datetime.datetime.now() < re.end_datetime:
+        tmp_start_datetime = re.start_datetime.replace(tzinfo=None) + datetime.timedelta(hours=9)
+        tmp_end_datetime = re.end_datetime.replace(tzinfo=None) + datetime.timedelta(hours=9)
+
+        if tmp_start_datetime < datetime.datetime.now() and datetime.datetime.now() < tmp_end_datetime:
             reservation = re
         break
 
     if reservation.power == 'on':
         response = 'on'
-        return HttpResponse(response, content_type='application/text')
+        return HttpResponse(response)
 
     else:
         response = 'off'
-        return HttpResponse(response, content_type='application/text')
+        return HttpResponse(response)

@@ -1,12 +1,10 @@
 
-.item_name_container>a,
-.reservation_info_container>a{
+.item_name_container>a{
     position: absolute;
     top: 14.1rem;
     left:1.5rem;
     width: 100%;
 }
-
 
 .item_name_container>a>.btn,
 .reservation_info_container>a>.btn{

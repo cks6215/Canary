@@ -108,7 +108,7 @@
         </div>
     </div>
 
-    <form id="reservation_form" action="{% url 'checklist:makereservation' %}" method="post">
+    <form id="reservation_form" action="{% url 'checklist:make_reservation' %}" method="post">
         {% csrf_token %}
 
         <input id="item_id_info" type="hidden" name="item_id" value="{{ equipment.id }}"> <!--value에 {{ item }} 넣기-->
@@ -423,7 +423,7 @@
             serializedData = $("#reservation_form").serialize();
             $.ajax({
                 type: 'POST',
-                url: "{% url 'checklist:makereservation' %}",
+                url: "{% url 'checklist:make_reservation' %}",
                 data: serializedData,
                 dataType: 'json',
                 success: function(response) {

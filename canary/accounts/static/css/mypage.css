@@ -18,6 +18,21 @@
     margin-bottom: 1rem;
 }
 
+
+#link_cancel_button,
+#link_using_button{
+    position: absolute;
+    top: 14.1rem;
+}
+
+#link_using_button{
+    left: 1.5rem;
+}
+
+#link_cancel_button{
+    left: 16.6rem;
+}
+
 .items {
     padding: 0;
     margin-top: 3rem;
@@ -25,9 +40,14 @@
 }
 
 .reservation_info_container>a{
-    width: 50%;
+    width: 40%;
 }
 
 .btn-group>.btn {
     float: inherit;
+}
+
+#using_button,
+#cancel_button{
+    width: 100%;
 }

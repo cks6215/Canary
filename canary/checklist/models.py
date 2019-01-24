@@ -35,8 +35,8 @@ class Reservation(models.Model):
 
     reserved_date = models.DateField(default=datetime.date.today, blank=False)
 
-    start_datetime = models.DateTimeField(unique=True, default=datetime.datetime.now())
-    end_datetime = models.DateTimeField(unique=True, default=datetime.datetime.now())
+    start_datetime = models.DateTimeField(unique=False, default=datetime.datetime.now())
+    end_datetime = models.DateTimeField(unique=False, default=datetime.datetime.now())
 
     checklist_complete = models.BooleanField(default=False)
     power = models.CharField(max_length=10, default='off')

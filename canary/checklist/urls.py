@@ -25,6 +25,6 @@ urlpatterns = [
     path('reservation_page/<item_id>/<item_date>/', views.datepicker, name='datepicker'),
     path('reserved/', views.reserved, name='reserved'),
 
-    path('makereservation/', views.makereservation, name='makereservation'),
-
+    path('make_reservation/', views.make_reservation, name='make_reservation'),
+    path('delete_reservation/<reservation_id>', views.delete_reservation, name='delete_reservation')
 ]

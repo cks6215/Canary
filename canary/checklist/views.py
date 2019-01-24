@@ -85,7 +85,7 @@ def reserved(request):
     return render(request, 'checklist/main.html', {})
 
 
-def makereservation(request):
+def make_reservation(request):
     if request.method == 'POST':
         tmp_email = request.user.username
         tmp_item_id = request.POST.get('item_id')
@@ -111,3 +111,10 @@ def makereservation(request):
 
     else:
         return redirect('checklist:main')
+
+
+def delete_reservation(request, reservation_id):
+    reservation = Reservation.objects.get(pk=reservation_id)
+    reservation.delete()
+
+    return redirect('accounts:mypage')
