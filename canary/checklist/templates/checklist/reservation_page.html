@@ -433,6 +433,7 @@
                     }
                     else{
                         alert(response.message);
+                        window.location="{% url 'checklist:main' 'All' %}";
                     }
                 }
             });

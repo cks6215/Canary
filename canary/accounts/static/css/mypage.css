@@ -19,18 +19,22 @@
 }
 
 
-#link_cancel_button,
-#link_using_button{
+.cancel_button,
+.using_button{
     position: absolute;
     top: 14.1rem;
 }
 
-#link_using_button{
+.using_button{
     left: 1.5rem;
+    width: 40%;
+    border-radius: 0;
 }
 
-#link_cancel_button{
+.cancel_button{
     left: 16.6rem;
+    width: 40%;
+    border-radius: 0;
 }
 
 .items {
@@ -47,7 +51,17 @@
     float: inherit;
 }
 
-#using_button,
-#cancel_button{
-    width: 100%;
+
+#modal_text{
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.modal-footer{
+    padding-bottom: 0;
+}
+
+.modal-footer>button,
+.modal-footer>a>button{
+    font-size: 1.2rem;
 }

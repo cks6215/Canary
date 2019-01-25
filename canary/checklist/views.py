@@ -1,10 +1,11 @@
 import datetime
+from django.utils import timezone
 import json
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReservationForm
-from .models import Reservation, Equipment, EquipmentCategory
+from .models import Reservation, Equipment, EquipmentCategory, Question, Checklist
 
 
 # Create your views here.
@@ -86,6 +87,9 @@ def reserved(request):
 
 
 def make_reservation(request):
+
+    reservation_li = []
+
     if request.method == 'POST':
         tmp_email = request.user.username
         tmp_item_id = request.POST.get('item_id')
@@ -97,17 +101,25 @@ def make_reservation(request):
         tmp_start_datetime = tmp_reserved_date + datetime.timedelta(hours=tmp_start_time.hour, minutes=tmp_start_time.minute)
         tmp_end_datetime = tmp_reserved_date + datetime.timedelta(hours=tmp_end_time.hour, minutes=tmp_end_time.minute)
 
-        Reservation.objects.create(email=tmp_email,
-                                   item_id=tmp_item_id,
-                                   item_category=tmp_item_category,
-                                   item_name=tmp_item_name,
-                                   reserved_date=tmp_reserved_date,
-                                   start_datetime=tmp_start_datetime,
-                                   end_datetime=tmp_end_datetime,
-                                   pub_date=datetime.datetime.now(),
-                                   )
-        response = {'status':'success', 'message':'예약되었습니다.'}
-        return HttpResponse(json.dumps(response), content_type='application/json')
+        for r in Reservation.objects.filter(email=tmp_email, end_datetime__gte=timezone.now()):
+            reservation_li.append(r)
+
+        if len(reservation_li)<3:
+            Reservation.objects.create(email=tmp_email,
+                                       item_id=tmp_item_id,
+                                       item_category=tmp_item_category,
+                                       item_name=tmp_item_name,
+                                       reserved_date=tmp_reserved_date,
+                                       start_datetime=tmp_start_datetime,
+                                       end_datetime=tmp_end_datetime,
+                                       pub_date=datetime.datetime.now(),
+                                       )
+            response = {'status':'success', 'message':'예약되었습니다.'}
+            return HttpResponse(json.dumps(response), content_type='application/json')
+
+        else:
+            response = {'status':'fail', 'message':'동시에 3개까지만 예약할 수 있습니다.'}
+            return HttpResponse(json.dumps(response), content_type='application/json')
 
     else:
         return redirect('checklist:main')
@@ -118,3 +130,108 @@ def delete_reservation(request, reservation_id):
     reservation.delete()
 
     return redirect('accounts:mypage')
+
+def checklist_page(request, reservation_id):
+
+    reservation = get_object_or_404(Reservation, pk=reservation_id)
+    equipment = get_object_or_404(Equipment, pk=reservation.item_id)
+    question_li = Question.objects.filter(item_category = equipment.item_category)
+
+    if reservation.checklist_complete == True:
+        return redirect('checklist:control_page', reservation.id, 'off')
+
+    if reservation.email.find('@') != -1:
+
+        index = reservation.email.find('@')
+        username = reservation.email[0:index]
+
+    else:
+        username = reservation.email
+
+    context = {'question_li':question_li,
+               'reservation':reservation,
+               'username':username}
+
+    return render(request, 'checklist/checklist_page.html', context)
+
+
+def make_checklist(request, reservation_id):
+
+    if request.method == 'POST':
+
+        reservation = get_object_or_404(Reservation, pk=reservation_id)
+        equipment = get_object_or_404(Equipment, pk=reservation.item_id)
+        question_li = Question.objects.filter(item_category=equipment.item_category)
+
+        tmp_reservation_id = reservation_id
+        tmp_author = reservation.email
+        tmp_item_name = reservation.item_name
+        tmp_item_id = reservation.item_id
+        tmp_answer_li = {}
+
+        for q in question_li:
+            tmp_answer_li[q.text] = request.POST.get('response'+str(q.id))
+
+        Checklist.objects.create(
+            reservation_id=tmp_reservation_id,
+            author=tmp_author,
+            item_name=tmp_item_name,
+            item_id=tmp_item_id,
+            answer=str(tmp_answer_li),
+            pub_date= datetime.datetime.now(),
+        )
+
+        # 에약 객체에 체크리스트 제출 여부 속성 추가.
+
+        reservation.checklist_complete = True
+        reservation.save()
+
+        response = {'status':'success', 'message':'제출되었습니다.'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+    else: #체크리스트 점검하는 알고리즘 추가
+        response = {'status': 'fail', 'message': '다시 작성하세요'}
+        return HttpResponse(json.dumps(response), content_type='application/json')
+
+
+def control_page(request, reservation_id, power):
+    if request.user.is_authenticated:
+        reservation = Reservation.objects.get(pk=reservation_id)
+
+        if request.user.username == reservation.email:
+            reservation.power = power
+            reservation.save()
+
+            context = {
+                'reservation':reservation
+            }
+
+            return render(request, 'checklist/control_page.html', context)
+
+        else:
+            return redirect('accounts:login_page')
+
+    else:
+        return redirect('accounts:login_page')
+
+
+def control_power(request, item_id):
+
+    reservation_li = Reservation.objects.filter(item_id=item_id)
+    reservation = Reservation()
+
+    for re in reservation_li:
+        tmp_start_datetime = re.start_datetime.replace(tzinfo=None) + datetime.timedelta(hours=9)
+        tmp_end_datetime = re.end_datetime.replace(tzinfo=None) + datetime.timedelta(hours=9)
+
+        if tmp_start_datetime < datetime.datetime.now() and datetime.datetime.now() < tmp_end_datetime:
+            reservation = re
+        break
+
+    if reservation.power == 'on':
+        response = 'on'
+        return HttpResponse(response)
+
+    else:
+        response = 'off'
+        return HttpResponse(response)

@@ -11,8 +11,8 @@
 {% block content %}
 <div class="header container-fluid">
     <div class="control_container">
-        <a href="{% url 'accounts:control_page' reservation.id 'on' %}"><input class="power_button" type="submit" value="on" name="power_on"></a>
-        <a href="{% url 'accounts:control_page' reservation.id 'off' %}"><input class="power_button" type="submit" value="off" name="power_off"></a>
+        <a href="{% url 'checklist:control_page' reservation.id 'on' %}"><input class="power_button" type="submit" value="on" name="power_on"></a>
+        <a href="{% url 'checklist:control_page' reservation.id 'off' %}"><input class="power_button" type="submit" value="off" name="power_off"></a>
     </div>
 </div>
 {% endblock %}

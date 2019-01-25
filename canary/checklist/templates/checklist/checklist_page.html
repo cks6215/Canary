@@ -29,7 +29,7 @@
                     <div class="answer_title_no">No</div>
                 </div>
             </div>
-            <form id="checklist_form" action="{% url 'accounts:makechecklist' reservation.id %}" method="post">
+            <form id="checklist_form" action="{% url 'checklist:make_checklist' reservation.id %}" method="post">
                 {% csrf_token %}
 
                 {% for q in question_li %}
@@ -65,13 +65,13 @@
             serializedData = $("#checklist_form").serialize();
             $.ajax({
                 type: 'POST',
-                url: "{% url 'accounts:makechecklist' reservation.id %}",
+                url: "{% url 'checklist:make_checklist' reservation.id %}",
                 data: serializedData,
                 dataType: 'json',
                 success: function(response) {
                     if(response.status == "success"){
                         alert(response.message);
-                        window.location="{% url 'accounts:control_page' reservation.id 'off' %}";
+                        window.location="{% url 'checklist:control_page' reservation.id 'off' %}";
                     }
                     else{
                         alert(response.message)

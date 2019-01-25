@@ -22,19 +22,74 @@
             <div class="reservation_info_container col-md-8">
                 <p class="item_name">{{ item.item_name }}</p>
                 <p class="username">사용자: {{ r.email }}</p>
-                <p class="using_time">사용시간: {{ start_datetime }} ~ {{ end_datetime }}</p>
+                <p class="using_time" value="{{ start_datetime }}">사용시간: {{ start_datetime }} ~ {{ end_datetime }}</p>
 
-                <a href="{% url 'accounts:checklist_page' r.id %}" id="link_using_button"><button type="button" class="btn btn-default" id="using_button">사용하기</button></a>
-                <a href="{% url 'checklist:delete_reservation' r.id %}" id="link_cancel_button"><button type="button" class="btn btn-default" id="cancel_button">취소하기</button></a>
+                <button type="button" class="btn btn-default using_button" data-toggle="modal" data-target="#MyModal" value="{{ r.id }}">사용하기</button>
+                <button type="button" class="btn btn-default cancel_button" data-toggle="modal" data-target="#MyModal" value="{{ r.id }}">취소하기</button>
             </div>
         </div>
         {% endfor %}
     </div>
-
+    <!-- Modal -->
+    <div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-labelledby="MyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <p id="modal_text">사용하시겠습니까?</p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                        <a href=""><button type="button" class="btn btn-primary" id="modal_button">사용하기</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
 
 {% block script %}
 
+<script>
+    $(document).ready(function() {
+        var now = new Date();
+
+        if(now.getMonth()+1>9) {month = now.getMonth()+1;}
+        else {month = '0'+(now.getMonth()+1);}
+
+        if(now.getDate()>9) {date = now.getDate();}
+        else {date = '0'+now.getDate();}
+
+        var date_now = now.getFullYear()+'-'+month+'-'+date;
+        var datetime_now = date_now+' '+now.getHours()+':'+now.getMinutes();
+
+        for(i=0; i<$(".items").length; i++)
+        {
+            if($(".using_time").eq(i).attr("value") > datetime_now){
+                $(".using_button").eq(i).attr("disabled", true);
+            }
+        }
+    });
+</script>
+
+<script>
+    $(".using_button").click(function () {
+        var r_id = $(this).attr("value");
+        var url = "/checklist/checklist_page/"+r_id;
+
+        $("#modal_text").html("사용하시겠습니까?");
+        $("#modal_button").html("사용하기");
+        $(".modal-footer>a").attr("href", url)
+    });
+
+    $(".cancel_button").click(function () {
+        var r_id = $(this).attr("value").toString();
+        var url = "/checklist/delete_reservation/"+r_id;
+
+        $("#modal_text").html("취소하시겠습니까?");
+        $("#modal_button").html("취소하기");
+        $(".modal-footer>a").attr("href", url)
+    });
+</script>
 {% endblock %}
